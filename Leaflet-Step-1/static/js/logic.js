@@ -1,11 +1,11 @@
 
-
+console.log("starting plots");
 
 // Creating map object
 const myMap = L.map("map", {
 	center: [37.09, -95.71],
 	zoom: 3.5,
-	layers: [satellite]
+	// layers: [satellite]
 });
 
 // Add tile layer
@@ -15,6 +15,9 @@ var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 	id: "mapbox.satellite",
 	accessToken: API_KEY
 });	
+
+// Add tile layer to map
+satellite.addTo(myMap);
 
 // Load the geojson data
 geojson_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
@@ -40,7 +43,7 @@ d3.json(geojson_url, function (data) {
 		}
 
 		// Add circles to map
-		L.circle([
+		L.circleMarker([
 			data.features[i].geometry.coordinates[1], 
 			data.features[i].geometry.coordinates[0]], {
 				color: color,
@@ -53,6 +56,7 @@ d3.json(geojson_url, function (data) {
 		.bindPopup("<h2>" + data.features[i].properties.title + "</h2> <hr> <h4>Location: " + data.features[i].properties.place + "</h4>")
 		
 		// Add features to map
+
 		.addTo(myMap);
 
 	}
